@@ -3,26 +3,41 @@ import deleteIcon from "./components/deleteIcon.js";
 
 const btn = document.querySelector("[data-form-btn]");
 
+const addTask = (e) => {
+  const list = document.querySelector("[data-list]");
+  const task = createTask(e);
+  list.appendChild(task);
+};
 //Arrow function
 const createTask = (e) => {
   e.preventDefault();
+
   const input = document.querySelector("[data-form-input]");
   const value = input.value;
-  const list = document.querySelector("[data-list]");
-  const task = document.createElement("li");
-  task.classList.add("card");
-  input.value = "";
-  //backticks
-  const taskContent = document.createElement("div");
-  taskContent.appendChild(checkComplete());
-  const titleTask = document.createElement("span");
-  titleTask.classList.add("task");
-  titleTask.innerText = value;
-  taskContent.appendChild(titleTask);
-  task.appendChild(taskContent);
-  task.appendChild(deleteIcon());
-  list.appendChild(task);
+  if (value != "") {
+    const calendar = document.querySelector("[data-form-date]");
+    const date = calendar.value;
+    const dateFormat = moment(date).format("DD/MM/YYYY");
+    const task = document.createElement("li");
+    const taskContent = document.createElement("div");
+    const titleTask = document.createElement("span");
+
+    task.classList.add("card");
+    input.value = "";
+
+    taskContent.appendChild(checkComplete());
+    titleTask.classList.add("task");
+    titleTask.innerText = value;
+    taskContent.appendChild(titleTask);
+    const dateElement = document.createElement("span");
+    dateElement.innerHTML = dateFormat;
+    task.appendChild(taskContent);
+    task.appendChild(dateElement);
+    task.appendChild(deleteIcon());
+
+    return task;
+  }
 };
 
 //listener
-btn.addEventListener("click", createTask);
+btn.addEventListener("click", addTask);

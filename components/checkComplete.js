@@ -7,7 +7,7 @@ const checkComplete = () => {
 
 //Immediately invoked function expression IIFE
 const completeTask = (e) => {
-  element = e.target;
+  const element = e.target;
   //toggle sirve para agregar o quitar una clase si esta existe o no
   element.classList.toggle("fas");
   element.classList.toggle("far");
