@@ -2,36 +2,40 @@ import checkComplete from "./checkComplete.js";
 import deleteIcon from "./deleteIcon.js";
 
 export const addTask = (e) => {
-  const list = document.querySelector("[data-list]");
-  const task = createTask(e);
-  list.appendChild(task);
-};
-
-//Arrow function
-const createTask = (e) => {
   e.preventDefault();
-  const taskList = JSON.parse(localStorage.getItem("task")) || [];
-  console.log(taskList);
 
+  const list = document.querySelector("[data-list]");
   const input = document.querySelector("[data-form-input]");
   const calendar = document.querySelector("[data-form-date]");
+
   const value = input.value;
   const date = calendar.value;
   const dateFormat = moment(date).format("DD/MM/YYYY");
-  const task = document.createElement("li");
-  task.classList.add("card");
-  input.value = "";
 
-  const taskContent = document.createElement("div");
+  input.value = "";
+  calendar.value = "";
 
   const taskObj = {
     value,
     dateFormat,
   };
 
+  const taskList = JSON.parse(localStorage.getItem("task")) || [];
+
   taskList.push(taskObj);
 
   localStorage.setItem("task", JSON.stringify(taskList));
+
+  const task = createTask(taskObj);
+  list.appendChild(task);
+};
+
+//Arrow function
+export const createTask = ({ value, dateFormat }) => {
+  const task = document.createElement("li");
+  task.classList.add("card");
+
+  const taskContent = document.createElement("div");
 
   const titleTask = document.createElement("span");
 
