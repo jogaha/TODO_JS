@@ -1,5 +1,6 @@
 import checkComplete from "./checkComplete.js";
 import deleteIcon from "./deleteIcon.js";
+import { displayTask } from "./readTask.js";
 
 export const addTask = (e) => {
   e.preventDefault();
@@ -11,7 +12,9 @@ export const addTask = (e) => {
   const value = input.value;
   const date = calendar.value;
   const dateFormat = moment(date).format("DD/MM/YYYY");
-
+  if (value == "" || date == "") {
+    return;
+  }
   input.value = "";
   calendar.value = "";
 
@@ -20,14 +23,14 @@ export const addTask = (e) => {
     dateFormat,
   };
 
+  list.innerHTML = "";
+
   const taskList = JSON.parse(localStorage.getItem("task")) || [];
 
   taskList.push(taskObj);
 
   localStorage.setItem("task", JSON.stringify(taskList));
-
-  const task = createTask(taskObj);
-  list.appendChild(task);
+  displayTask();
 };
 
 //Arrow function
